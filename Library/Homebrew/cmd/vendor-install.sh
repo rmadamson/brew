@@ -238,14 +238,15 @@ homebrew-vendor-install() {
   VENDOR_URL2="${!url2_var}"
   VENDOR_SHA="${!sha_var}"
 
-  if [[ -z "$LINUXBREW_SKIP_ERRORS" ]]; then
-  if [[ -z "$VENDOR_URL" || -z "$VENDOR_SHA" ]]
+  if [[ -z "$LINUXBREW_SKIP_ERRORS" ]]
   then
-    odie <<-EOS
+    if [[ -z "$VENDOR_URL" || -z "$VENDOR_SHA" ]]
+    then
+      odie <<-EOS
 Cannot find a vendered version of $VENDOR_NAME for your $HOMEBREW_PROCESSOR
 processor on $HOMEBREW_PRODUCT!
 EOS
-  fi
+   fi
 
   VENDOR_VERSION="$(<"$VENDOR_DIR/portable-$VENDOR_NAME-version")"
   CACHED_LOCATION="$HOMEBREW_CACHE/$(basename "$VENDOR_URL")"
