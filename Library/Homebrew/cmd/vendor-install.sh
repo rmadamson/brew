@@ -238,6 +238,7 @@ homebrew-vendor-install() {
   VENDOR_URL2="${!url2_var}"
   VENDOR_SHA="${!sha_var}"
 
+  if [[ -z "$LINUXBREW_SKIP_ERRORS" ]]; then
   if [[ -z "$VENDOR_URL" || -z "$VENDOR_SHA" ]]
   then
     odie <<-EOS
@@ -252,4 +253,5 @@ EOS
   lock "vendor-install-$VENDOR_NAME"
   fetch
   install
+  fi
 }
