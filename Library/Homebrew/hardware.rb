@@ -3,7 +3,7 @@ module Hardware
     INTEL_32BIT_ARCHS = [:i386].freeze
     INTEL_64BIT_ARCHS = [:x86_64].freeze
     PPC_32BIT_ARCHS   = [:ppc, :ppc32, :ppc7400, :ppc7450, :ppc970].freeze
-    PPC_64BIT_ARCHS   = [:ppc64].freeze
+    PPC_64BIT_ARCHS   = [:ppc64, :ppc64le].freeze
 
     class << self
       OPTIMIZATION_FLAGS = {
@@ -33,6 +33,8 @@ module Hardware
           :arm64
         elsif intel?
           :x86_64
+        elsif ppc64le?
+          :ppc64le
         elsif ppc?
           :ppc64
         else
@@ -60,6 +62,7 @@ module Hardware
         when /x86_64/, /i\d86/ then :intel
         when /arm/ then :arm
         when /ppc\d+/ then :ppc
+        when /ppc\d+\w+/ then :ppc64le
         else :dunno
         end
       end
@@ -77,7 +80,7 @@ module Hardware
 
       def bits
         @bits ||= case RUBY_PLATFORM
-        when /x86_64/, /ppc64/, /aarch64|arm64/ then 64
+        when /x86_64/, /ppc64/, /ppc64le/, /aarch64|arm64/ then 64
         when /i\d86/, /ppc/, /arm/ then 32
         end
       end
@@ -102,6 +105,10 @@ module Hardware
         type == :ppc
       end
 
+      def ppc64le?
+        type == :ppc64le
+      end
+
       def arm?
         type == :arm
       end
@@ -119,6 +126,8 @@ module Hardware
           arch_32_bit == arch
         elsif intel?
           (INTEL_32BIT_ARCHS + INTEL_64BIT_ARCHS).include?(arch)
+        elsif ppc?
+          (PPC_32BIT_ARCHS + PPC_64BIT_ARCHS).include?(arch)
         elsif ppc?
           (PPC_32BIT_ARCHS + PPC_64BIT_ARCHS).include?(arch)
         else
