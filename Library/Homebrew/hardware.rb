@@ -62,7 +62,7 @@ module Hardware
         when /x86_64/, /i\d86/ then :intel
         when /arm/ then :arm
         when /ppc\d+/ then :ppc
-        when /ppc\d+\w+/ then :ppc64le
+        when /powerpc64le/ then :ppc64le
         else :dunno
         end
       end
@@ -80,7 +80,7 @@ module Hardware
 
       def bits
         @bits ||= case RUBY_PLATFORM
-        when /x86_64/, /ppc64/, /ppc64le/, /aarch64|arm64/ then 64
+        when /x86_64/, /ppc64/, /powerpc64le/, /aarch64|arm64/ then 64
         when /i\d86/, /ppc/, /arm/ then 32
         end
       end
