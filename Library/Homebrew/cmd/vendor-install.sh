@@ -242,7 +242,7 @@ homebrew-vendor-install() {
   if [[ -z "$VENDOR_URL" || -z "$VENDOR_SHA" ]]
   then
     odie <<-EOS
-Cannot find a vendored version of $VENDOR_NAME for your $HOMEBREW_PROCESSOR
+Cannot find a vendered version of $VENDOR_NAME for your $HOMEBREW_PROCESSOR
 processor on $HOMEBREW_PRODUCT!
 EOS
   fi
